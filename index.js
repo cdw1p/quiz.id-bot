@@ -128,7 +128,7 @@ const runningBot = () => new Promise(async () => {
         const resGJB = await getJawabanBerita(item)
         const resPJB = await postJawabanBerita(item, resGJB)
         const resGAI = await getAccountInfo()
-        console.log(`[${moment().format('HH:MM:SS')}] ${`${resPJB.score}`.bold.green} | Users Point : ${`${resGAI.usr_point}`.bold.green} | Quiz Solving : ${`${resGAI.quiz}`.bold.green}`)
+        console.log(`[${moment().format('HH:MM:SS')}] ${`Yeyy +${JSON.parse(resPJB).score}`.bold.green} | Users Point : ${`${resGAI.usr_point}`.bold.green} | Quiz Solving : ${`${resGAI.quiz}`.bold.green}`)
       })
     }
   } catch(err) {
