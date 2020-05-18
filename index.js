@@ -3,7 +3,24 @@ const moment = require('moment')
 const _ = require('lodash')
 require('colors')
 
-let API_TOKEN = '';
+// Auth Configuration
+let API_TOKEN = '',
+USERNAME = '',
+PASSWORD = ''
+
+const getAccountToken = () => new Promise((resolve, reject) => {
+  try {
+    fetch(`https://www.quiz.id/api/login?email=${USERNAME}&password=${PASSWORD}`, {
+      method: 'POST'
+    })
+    .then(res => res.json())
+    .then(result => {
+      resolve(result.api_token)
+    })
+  } catch(err) {
+    reject(err)
+  }
+})
 
 const getAccountInfo = () => new Promise((resolve, reject) => {
   try {
@@ -98,7 +115,7 @@ const postJawabanBerita = (BERITA_ID, BODY_POST) => new Promise((resolve, reject
   }
 })
 
-;(async () => {
+const runningBot = () => new Promise(async () => {
   try {
     const resGBH = await getSemuaBerita()
 
@@ -113,6 +130,21 @@ const postJawabanBerita = (BERITA_ID, BODY_POST) => new Promise((resolve, reject
         const resGAI = await getAccountInfo()
         console.log(`[${moment().format('HH:MM:SS')}] ${`${resPJB.score}`.bold.green} | Users Point : ${`${resGAI.usr_point}`.bold.green} | Quiz Solving : ${`${resGAI.quiz}`.bold.green}`)
       })
+    }
+  } catch(err) {
+    reject(err)
+  }
+})
+
+;(async () => {
+  try {
+    if (API_TOKEN) {
+      await runningBot()
+    } else if (USERNAME && PASSWORD) {
+      API_TOKEN = await getAccountToken()
+      await runningBot()
+    } else {
+      console.log(`Authentication failed, please setup your auth configuration`.bold.red)
     }
   } catch(err) {
     console.log(err)
