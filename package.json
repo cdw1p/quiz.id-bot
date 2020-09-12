@@ -12,6 +12,6 @@
     "colors": "^1.4.0",
     "lodash": "^4.17.15",
     "moment": "^2.25.3",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.1"
   }
 }
